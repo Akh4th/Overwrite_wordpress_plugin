@@ -1,0 +1,14 @@
+{
+    "Host name on websites.txt": {
+        "user": "",
+        "pass": "",
+        "host": "",
+        "port": ""
+    },
+    "Example 1": {
+        "user": "example_user",
+        "pass": "example_password",
+        "host": "example_host",
+        "port": "21"
+    },
+}
