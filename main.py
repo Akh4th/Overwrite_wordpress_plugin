@@ -13,8 +13,8 @@ that host from the list and will replace the existing folder (remote_folder) wit
 
 websites_file = "websites.txt" # list of websites to operate
 creds_file = "CREDS.json" # Credentials json file for all the cPanels
-local_folder_path = "example_plugin-4.3.2.1" # Local folder to upload (the name of the plugin on your end)
-remote_folder = "example_plugin" # Plugin to replace (the name of the plugin's folder on the site)
+local_folder_path = "google-sitemap-generator.4.1.16" # Local folder to upload
+remote_folder = "google-sitemap-generator" # Plugin to replace
 
 
 def file_to_json(FILE):
@@ -40,6 +40,15 @@ def file_to_list(FILE):
                 websites[host].append(line)
     print(f"Successfully imported {sum(len(sites) for sites in websites.values())} websites")
     return websites
+
+
+def delete_url_from_file(file_path, url_to_delete):
+    with open(file_path, "r") as file:
+        urls = file.readlines()
+    modified_urls = [url.strip() for url in urls if url.strip() != url_to_delete]
+    with open(file_path, "w") as file:
+        for url in modified_urls:
+            file.write(url + "\n")
 
 
 def remove_directory_recursively(ftp, path):
@@ -117,6 +126,7 @@ def main():
                         upload_directory(ftp, local_folder_path, remote_folder)
                         print(f"Updated {site} successfully.")
                         success.append(site)
+                        delete_url_from_file(websites_file, site)
                     except Exception as e:
                         print(f"Error updating {site}: {e}")
                         fails.append(site)
